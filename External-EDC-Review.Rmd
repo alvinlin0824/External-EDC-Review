@@ -1620,7 +1620,7 @@ str_length(sa$DUSPID03) != median(str_length(sa$DUSPID03),na.rm = T) |
 # Application Date (C)
 is.na(sa$DUDTC02) | str_detect(sa$DUDTC02,"^$|pattern") |
 # Length of Application Date 
-str_length(sa$DUDTC02) != median(str_length(sa$DUDTC02),na.rm = T) |
+str_length(sa$DUDTC02) != median(str_length(sa$DUDTC02),na.rm = T) | is.na(sa$DUDTC02) |
 # Application Time (C)
 is.na(sa$DUTM01) | str_detect(sa$DUTM01,"^$|pattern")   |
 # Length of Application Time 
@@ -1668,7 +1668,7 @@ is.na(sa$DUORES03) | str_detect(sa$DUORES03,"^$|pattern")   |
 
 `r if(is.character(params$data20)){knitr::asis_output("DUDTC02(Application Date) should not be blank")}` `r if(is.character(params$data20)){colorize(sa[is.na(sa$DUDTC02) | str_detect(sa$DUDTC02,"^$|pattern"),]$Subject,"red")}`
 
-`r if(is.character(params$data20)){knitr::asis_output("Length of DUDTC02(Application Date) should be")}` `r if(is.character(params$data20)){colorize(median(str_length(sa$DUDTC02),na.rm = T),"red")}` `r if(is.character(params$data20)){colorize(sa[str_length(sa$DUDTC02) != median(str_length(sa$DUDTC02),na.rm = T),]$Subject,"red")}`
+`r if(is.character(params$data20)){knitr::asis_output("Length of DUDTC02(Application Date) should be")}` `r if(is.character(params$data20)){colorize(median(str_length(sa$DUDTC02),na.rm = T),"red")}` `r if(is.character(params$data20)){colorize(sa[str_length(sa$DUDTC02) != median(str_length(sa$DUDTC02),na.rm = T) | is.na(sa$DUDTC02),]$Subject,"red")}`
 
 `r if(is.character(params$data20)){knitr::asis_output("DUTM01(Application Time) should not be blank")}` `r if(is.character(params$data20)){colorize(sa[is.na(sa$DUTM01) | str_detect(sa$DUTM01,"^$|pattern"),]$Subject,"red")}`
 
