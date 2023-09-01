@@ -432,7 +432,6 @@ cad2$DSDTC02 < cad2$DSDTC01 & !str_detect(cad2$DSYN04,"Not required if Date conf
 
 `r if(is.character(params$data3)){knitr::asis_output("If Date confirmed is not prior to this Visit Date, DSTM01(Time eligibility was confirmed) should not be blank")}` `r if(is.character(params$data3)){colorize(cad2[!(cad2$DSDTC02 < cad2$DSDTC01) & str_detect(cad2$DSTM01,"^$|pattern"),]$Subject,"red")}`
 
-<!-- `r if(is.character(params$data3)){knitr::asis_output("DSYN03(Is at least one sensor working properly upon discharge?) shoud be either Yes or No")}` `r if(is.character(params$data3)){colorize(cad2[!str_detect(cad2$DSYN03,regex("Yes|No",ignore_case = T)),]$Subject,"red")}` -->
 
 <!-- # CAD3 Review -->
 
@@ -489,15 +488,7 @@ cad3[
 
 `r if(is.character(params$data4)){knitr::asis_output("DSDTC01(Visit Date) should not be blank")}` `r if(is.character(params$data4)){colorize(cad3[(is.na(cad3$DSDTC01) |  str_detect(cad3$DSDTC01,"^$|pattern")),]$Subject,"red")}`
 
-<!-- `r if(is.character(params$data4)){knitr::asis_output("DSYN02(VENOUS ACCESS SUCESSFUL?) should not be blank")}` `r if(is.character(params$data4)){colorize(cad3[!str_detect(cad3$DSYN02,regex("Yes|No",ignore_case = T)),]$Subject,"red")}` -->
-
-<!-- `r if(is.character(params$data4)){knitr::asis_output("DSTM01(Time IV port established) should not be blank")}` `r if(is.character(params$data4)){colorize(cad3[str_detect(cad3$DSYN02,regex("Yes",ignore_case = T)) & str_detect(cad3$DSTM01,"^$|pattern"),]$Subject,"red")}` -->
-
-<!-- `r if(is.character(params$data4)){knitr::asis_output("DSYN03(VENOUS ACCESS REMOVAL TIME) should be either Yes or NA")}` `r if(is.character(params$data4)){colorize(cad3[!str_detect(cad3$DSYN03,regex("Yes|NA",ignore_case = T)),]$Subject,"red")}` -->
-
-<!-- `r if(is.character(params$data4)){knitr::asis_output("DSTM02(Time IV port removed) should not be blank")}` `r if(is.character(params$data4)){colorize(cad3[str_detect(cad3$DSYN03,regex("Yes",ignore_case = T)) & str_detect(cad3$DSTM02,"^$|pattern"),]$Subject,"red")}` -->
-
-`r if(is.character(params$data4)){knitr::asis_output("DSYN03(Were the reading devices uploaded?) should be either Yes or No")}` `r if(is.character(params$data4)){colorize(cad3[!str_detect(cad3$DSYN04,regex("Yes|No",ignore_case = T)),]$Subject,"red")}`
+`r if(is.character(params$data4)){knitr::asis_output("DSYN03(Were the reading devices uploaded?) should be either Yes or No")}` `r if(is.character(params$data4)){colorize(cad3[!str_detect(cad3$DSYN03,regex("Yes|No",ignore_case = T)),]$Subject,"red")}`
 
 <!-- # CAD4 Review -->
 
@@ -584,8 +575,6 @@ cad4[
 # )
 ```
 
-<!-- `r if(is.character(params$data6) && is_empty(cm1$Subject)){knitr::asis_output(colorize("CM1 is empty","red"))}` -->
-
 
 <!-- # CM2 Review -->
 
@@ -633,7 +622,7 @@ str_detect(str_to_lower(cm2$CMDOSFRQ),"other") & str_detect(cm2$CMOTH02,"^$|patt
 # start date
 (is.na(cm2$CMSTDTC) | str_detect(cm2$CMSTDTC,"^$|pattern"))                         |
 # Length of Start Date
-str_length(cm2$CMSTDTC) != median(str_length(cm2$CMSTDTC),na.rm = T)            |
+str_length(cm2$CMSTDTC) != median(str_length(cm2$CMSTDTC),na.rm = T) | is.na(cm2$CMSTDTC)            |
 # stop date and ongoing
 is.na(cm2$CMENDTC) & str_detect(cm2$CMONGO,"^$|pattern")                            |
 # Ongoing
@@ -665,7 +654,7 @@ is.na(cm2$CMENDTC) & str_detect(cm2$CMONGO,"^$|pattern")                        
 
 `r if(is.character(params$data7)){knitr::asis_output("CMSTDTC(Start Date) should not be blank")}` `r if(is.character(params$data7)){colorize(cm2[(is.na(cm2$CMSTDTC) | str_detect(cm2$CMSTDTC,"^$|pattern")),]$Subject,"red")}`
 
-`r if(is.character(params$data7)){knitr::asis_output("Length of CMSTDTC(Start Date) should be")}` `r if(is.character(params$data7)){colorize(median(str_length(cm2$CMSTDTC),na.rm = T),"red")}``r if(is.character(params$data7)){knitr::asis_output(",so")}` `r if(is.character(params$data7)){colorize(cm2[str_length(cm2$CMSTDTC) != median(str_length(cm2$CMSTDTC),na.rm = T),]$Subject,"red")}`
+`r if(is.character(params$data7)){knitr::asis_output("Length of CMSTDTC(Start Date) should be")}` `r if(is.character(params$data7)){colorize(median(str_length(cm2$CMSTDTC),na.rm = T),"red")}``r if(is.character(params$data7)){knitr::asis_output(",so")}` `r if(is.character(params$data7)){colorize(cm2[str_length(cm2$CMSTDTC) != median(str_length(cm2$CMSTDTC),na.rm = T) | is.na(cm2$CMSTDTC),]$Subject,"red")}`
 
 `r if(is.character(params$data7)){knitr::asis_output("CMENDTC(Stop Date) and CMONGO(Ongoing) should not be blank at the same time")}` `r if(is.character(params$data7)){colorize(cm2[is.na(cm2$CMENDTC) & str_detect(cm2$CMONGO,"^$|pattern"),]$Subject,"red")}`
 
@@ -935,7 +924,7 @@ du2[
 # Date of Upload
 (is.na(du2$UPDTC01) | str_detect(du2$UPDTC01,"^$|pattern")) |
 # Length of Date of Upload
-str_length(du2$UPDTC01) != median(str_length(du2$UPDTC01),na.rm = T)                        | 
+str_length(du2$UPDTC01) != median(str_length(du2$UPDTC01),na.rm = T) | is.na(du2$UPDTC01) | 
 # Time of Upload
 (is.na(du2$UPDTC02) | str_detect(du2$UPDTC02,"^$|pattern"))  |
 # Length of Time of Upload
@@ -957,7 +946,7 @@ str_length(du2$UPDTC02) != median(str_length(du2$UPDTC02),na.rm = T),] %>%
 
 `r if(is.character(params$data11)){knitr::asis_output("UPDTC01(Date of Upload) should not be blank")}` `r if(is.character(params$data11)){colorize(du2[(is.na(du2$UPDTC01) |  str_detect(du2$UPDTC01,"^$|pattern")),]$Subject,"red")}`
 
-`r if(is.character(params$data11)){knitr::asis_output("Length of UPDTC01(Date of Upload) should be")}` `r if(is.character(params$data11)){colorize(median(str_length(du2$UPDTC01),na.rm = T),"red")}` `r if(is.character(params$data11)){colorize(du2[str_length(du2$UPDTC01) != median(str_length(du2$UPDTC01),na.rm = T),]$Subject,"red")}`
+`r if(is.character(params$data11)){knitr::asis_output("Length of UPDTC01(Date of Upload) should be")}` `r if(is.character(params$data11)){colorize(median(str_length(du2$UPDTC01),na.rm = T),"red")}` `r if(is.character(params$data11)){colorize(du2[str_length(du2$UPDTC01) != median(str_length(du2$UPDTC01),na.rm = T) | is.na(du2$UPDTC01),]$Subject,"red")}`
 
 `r if(is.character(params$data11)){knitr::asis_output("UPDTC01(Time of Upload) should not be blank")}` `r if(is.character(params$data11)){colorize(du2[(is.na(du2$UPDTC02) | str_detect(du2$UPDTC02,"^$|pattern")),]$Subject,"red")}`
 
@@ -974,11 +963,11 @@ str_length(du2$UPDTC02) != median(str_length(du2$UPDTC02),na.rm = T),] %>%
 ```{r}
 # ie <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\ie.sas7bdat)"))
 # ie <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-VAL-21216\Openclinica\Current\ie.sas7bdat)"))
-# ie <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-22225\SE23_24_Glu\OpenClinica\Current\ie.sas7bdat)"))
+ie <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-22225\SE23_24_Glu\OpenClinica\Current\ie.sas7bdat)"))
 ```
 
 ```{r Load ie, eval=is.character(params$data12)}
-ie <- read_sas(params$data12)
+# ie <- read_sas(params$data12)
 ie <- ie %>% 
       mutate(Subject = as.character(Subject)) %>% 
       arrange(Subject)
@@ -1024,14 +1013,6 @@ str_detect(ie$IEORES01,regex("No",ignore_case = T)) & str_detect(ie$IEORES02,"^$
 `r if(is.character(params$data12)){knitr::asis_output("IEDTC01(Visit Date) should not be blank")}` `r if(is.character(params$data12)){colorize(ie[(is.na(ie$IEDTC01) | str_detect(ie$IEDTC01,"^$|pattern")),]$Subject,"red")}`
 
 `r if(is.character(params$data12)){knitr::asis_output("Length of IEDTC01(Visit Date) should be")}` `r if(is.character(params$data12)){colorize(median(str_length(ie$IEDTC01),na.rm = T),"red")}``r if(is.character(params$data12)){colorize(ie[str_length(ie$IEDTC01) != median(str_length(ie$IEDTC01),na.rm = T),]$Subject,"red")}`
-
-<!-- `r if(is.character(params$data12)){knitr::asis_output("IEDTC02(Date Informed Consent Form was signed) should not be blank")}` `r if(is.character(params$data12)){colorize(ie[(is.na(ie$IEDTC02) | str_detect(ie$IEDTC02,"^$|pattern")),]$Subject,"red")}` -->
-
-<!-- `r if(is.character(params$data12)){knitr::asis_output("Length of IEDTC02(Date Informed Consent Form was signed) should be")}` `r if(is.character(params$data12)){colorize(median(str_length(ie$IEDTC02),na.rm = T),"red")}``r if(is.character(params$data12)){colorize(ie[str_length(ie$IEDTC02) != median(str_length(ie$IEDTC02),na.rm = T),]$Subject,"red")}` -->
-
-<!-- `r if(is.character(params$data12)){knitr::asis_output("IETM01(Time Informed Consent Form was signed) should not be blank")}` `r if(is.character(params$data12)){colorize(ie[(is.na(ie$IETM01) | str_detect(ie$IETM01,"^$|pattern")),]$Subject,"red")}` -->
-
-<!-- `r if(is.character(params$data12)){knitr::asis_output("Length of IETM01(Time Informed Consent Form was signed) should be")}` `r if(is.character(params$data12)){colorize(median(str_length(ie$IETM01),na.rm = T),"red")}` `r if(is.character(params$data12)){colorize(ie[str_length(ie$IETM01) != median(str_length(ie$IETM01),na.rm = T),]$Subject,"red")}` -->
 
 `r if(is.character(params$data12)){knitr::asis_output("IEORES01(Did Subject meet all the Inclusion Criteria and none of the Exclusion Criteria?) should be either Yes or No")}` `r if(is.character(params$data12)){colorize(ie[!str_detect(ie$IEORES01,regex("Yes|No",ignore_case = T)),]$Subject,"red")}`
 
