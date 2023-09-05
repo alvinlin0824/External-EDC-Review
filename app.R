@@ -7,7 +7,7 @@ options(shiny.maxRequestSize = 30*1024^2)
 
 ui <- fluidPage(
   theme = bslib::bs_theme(bootswatch = "minty"),
-  titlePanel("ADC-US-RES EDC Review"),
+  titlePanel("ADC US External EDC Review"),
   useShinyFeedback(),
   a(span("Please email Alvin Lin if you run into any issues",style = "color:black"),href = "mailto:alvin.lin@abbott.com"),
   fluidRow(column(12,
