@@ -14,6 +14,7 @@ ui <- fluidPage(
                   textInput("study",h6("Please enter study"),value = "",width = "400px"),
                   uiOutput("new"),
                   verbatimTextOutput("text"),
+                  selectInput("label","Column Label",choices = c(TRUE,FALSE),selected = FALSE),
                   rclipboardSetup(),
                   uiOutput("clip"))),
                   br(),
@@ -78,21 +79,27 @@ server <- function(input, output, session) {
   })
   
   output$new <- renderUI({
-    if (input$study %in% c("21206","21216")) return(NULL) else {
-      textInput("event", h6("Please enter study event"))
+    if (input$study %in% c("21206","21216","23234")) return(NULL) else {
+      textInput("event", h6("Please enter study event"),width = "400px")
     }
   })
   
   text <- reactive({
     req(input$study)
     
-    exists <- input$study %in% c("21217","21211","22225","21206","21216")
+    exists <- input$study %in% c("21217","21211","22225","21206","21216","23234")
     feedbackWarning("study",!exists,"Unkown Study")
     req(exists,cancelOutput = FALSE)
-    
+    # RES with Study event
     if (input$study %in% c("21217","21211","22225")) {
       cat(str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\","ADC","-","US","-","RES","-",input$study,"\\",input$event,"\\","Openclinica","\\","Current"))
-    } else  {
+    } 
+    # RES without study event
+    else if (input$study %in% c("23234")) {
+      cat(str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\","ADC","-","US","-","RES","-",input$study,"\\","Openclinica","\\","Current"))
+    } 
+    # VAL without study event
+    else {
       cat(str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\","ADC","-","US","-","VAL","-",input$study,"\\","Openclinica","\\","Current"))
     }
   })
@@ -107,7 +114,11 @@ server <- function(input, output, session) {
       label = "Copy Path",
       clipText =  if (input$study %in% c("21217","21211","22225")) {
         str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\","ADC","-","US","-","RES","-",input$study,"\\",input$event,"\\","Openclinica","\\","Current")
-      } else  {
+      } 
+      else if (input$study %in% c("23234")) {
+        str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\","ADC","-","US","-","RES","-",input$study,"\\","Openclinica","\\","Current")
+      }
+      else  {
         str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\","ADC","-","US","-","VAL","-",input$study,"\\","Openclinica","\\","Current")
       }
       ,
@@ -124,6 +135,7 @@ server <- function(input, output, session) {
     },
     content = function(file){
       params <- list(Study = input$study,
+                     label = input$label,
                      data1 = input$ae1$datapath,
                      data2 = input$ae2$datapath,
                      data3 = input$cad2$datapath,

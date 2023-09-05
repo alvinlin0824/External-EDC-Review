@@ -9,6 +9,7 @@ output:
 
 params:
     Study: 217
+    label: FALSE
     data1:
       label: "Upload ae1 :"
       value: FALSE
@@ -171,7 +172,7 @@ colorize <- function(x, color) {
 
 `r if(is.character(params$data1)){knitr::asis_output("# **AE1 Review**")}`
 
-`r if(is.character(params$data1)){htmltools::a("Adverse Event Report",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/AE_Report.pdf")}`
+`r if(is.character(params$data1)){htmltools::a("Adverse Event Report",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Adverse_Event_Report.pdf")}`
 
 ```{r}
 # ae1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\ae1.sas7bdat)"))
@@ -254,6 +255,7 @@ str_detect(ae1$AEENTM02,"^$|pattern") & str_detect(ae1$AEENTM01,"^$|pattern") |
 # Investigator Acknowledgement
 is.na(ae1$AEDTC03),] %>% 
   select(Subject,`__STUDYEVENTREPEATKEY`,AENUM01:last_col()) %>%  
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "ae1",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -326,7 +328,7 @@ is.na(ae1$AEDTC03),] %>%
 
 `r if(is.character(params$data2)){knitr::asis_output("# **AE2 Review**")}`
 
-`r if(is.character(params$data2)){htmltools::a("Adverse Event Report",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/AE_Report.pdf")}`
+`r if(is.character(params$data2)){htmltools::a("Adverse Event Report",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Adverse_Event_Report.pdf")}`
 
 ```{r}
 # ae2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\ae2.sas7bdat)"))
@@ -357,6 +359,7 @@ ae2[
     # UPDATES/FOLLOW-UP: method of contact
     !str_detect(ae2$AERESP01,regex("In person|Telephone|Electronic",ignore_case = T)),] %>%
     select(Subject,`__STUDYEVENTREPEATKEY`,AEDTC02:last_col()) %>%
+    {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "ae2",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -379,7 +382,7 @@ ae2[
 
 `r if(is.character(params$data3)){knitr::asis_output("# **CAD2 Review**")}`
 
-`r if(is.character(params$data3)){htmltools::a("Clinic Visit 2 Admission and Discharge",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/CV2_Admission_Discharge.pdf")}`
+`r if(is.character(params$data3)){htmltools::a("Clinic Visit 2 Admission and Discharge",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/CV2.pdf")}`
 
 ```{r}
 # cad2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE02\Openclinica\Current\cad2.sas7bdat)"))
@@ -414,6 +417,7 @@ cad2$DSDTC02 < cad2$DSDTC01 & !str_detect(cad2$DSYN04,"Not required if Date conf
 # !str_detect(cad2$DSYN03,regex("Yes|No",ignore_case = T))
 ,] %>%
   select(Subject,`__STUDYEVENTREPEATKEY`,DSDTC01:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "cad2",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -439,7 +443,7 @@ cad2$DSDTC02 < cad2$DSDTC01 & !str_detect(cad2$DSYN04,"Not required if Date conf
 
 `r if(is.character(params$data4)){knitr::asis_output("# **CAD3 Review**")}`
 
-`r if(is.character(params$data4)){htmltools::a("Clinic Visit 3 Admission and Discharge",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/CV3_Admission_Discharge.pdf")}`
+`r if(is.character(params$data4)){htmltools::a("Clinic Visit 3 Admission and Discharge",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/CV3_Admission.pdf")}`
 
 ```{r}
 # cad3 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE02\Openclinica\Current\cad3.sas7bdat)"))
@@ -476,6 +480,7 @@ cad3[
 # Was subject's reader data uploaded?
 !str_detect(cad3$DSYN03,regex("Yes|No",ignore_case = T)),] %>% 
   select(Subject,`__STUDYEVENTREPEATKEY`,DSDTC01:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "cad3",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -524,6 +529,7 @@ cad4[
 # Was subject's reader data uploaded?
 !str_detect(cad4$DSYN02,regex("Yes|No",ignore_case = T)),] %>% 
   select(Subject,`__STUDYEVENTREPEATKEY`,CMTRT:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "cad4",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -542,7 +548,7 @@ cad4[
 
 `r if(is.character(params$data6)){knitr::asis_output("# **CM1 Review**")}`
 
-`r if(is.character(params$data6)){htmltools::a("Medications",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Medications.pdf")}`
+`r if(is.character(params$data6)){htmltools::a("Medications",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Medications.pdf")}`
 
 ```{r}
 # cm1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\cm1.sas7bdat)"))
@@ -582,7 +588,7 @@ cad4[
 
 `r if(is.character(params$data7)){knitr::asis_output("# **CM2 Review**")}`
 
-`r if(is.character(params$data7)){htmltools::a("Medications",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Medications.pdf")}`
+`r if(is.character(params$data7)){htmltools::a("Medications",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Medications.pdf")}`
 
 ```{r}
 # cm2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\cm2.sas7bdat)"))
@@ -628,6 +634,7 @@ is.na(cm2$CMENDTC) & str_detect(cm2$CMONGO,"^$|pattern")                        
 # Ongoing
 !str_detect(cm2$CMONGO,regex("Ongoing|^$|pattern",ignore_case = T)),] %>% 
   select(Subject,`__STUDYEVENTREPEATKEY`,CMTRT:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "cm2",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -664,7 +671,7 @@ is.na(cm2$CMENDTC) & str_detect(cm2$CMONGO,"^$|pattern")                        
 
 `r if(is.character(params$data8)){knitr::asis_output("# **CO Review**")}`
 
-`r if(is.character(params$data8)){htmltools::a("Comments",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Comments.pdf")}`
+`r if(is.character(params$data8)){htmltools::a("Comments",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Comments.pdf")}`
 
 ```{r}
 # co <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\co.sas7bdat)"))
@@ -690,7 +697,7 @@ htmltools::browsable(
 co[
   (is.na(co$CODTC1) | str_detect(co$CODTC1,"^$|pattern")),] %>% 
   select(Subject,`__STUDYEVENTREPEATKEY`,CODTC1:last_col()) %>%
-  # sjlabelled::label_to_colnames() |> 
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>% 
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "co",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -709,7 +716,7 @@ co[
 
 `r if(is.character(params$data9)){knitr::asis_output("# **DE Review**")}`
 
-`r if(is.character(params$data9)){htmltools::a("Device Incident Report",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Device_Incident_Report.pdf")}`
+`r if(is.character(params$data9)){htmltools::a("Device Incident Report",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Device_Incident_Report.pdf")}`
 
 ```{r}
 # de <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\de.sas7bdat)"))
@@ -768,6 +775,7 @@ str_detect(str_to_lower(de$DEORES09),"other") & str_detect(de$DETXT04,"^$|patter
 # Did the incident fit any of the events listed below?
 !str_detect(de$DEORES12,regex("Yes|No",ignore_case = T)),] %>%
   select(Subject,`__STUDYEVENTREPEATKEY`,DEDTC02:last_col()) %>% 
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "de",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -818,7 +826,7 @@ str_detect(str_to_lower(de$DEORES09),"other") & str_detect(de$DETXT04,"^$|patter
 
 `r if(is.character(params$data10)){knitr::asis_output("# **DM Review**")}`
 
-`r if(is.character(params$data10)){htmltools::a("Demographics",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Demographics.pdf")}`
+`r if(is.character(params$data10)){htmltools::a("Demographics",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Demographics.pdf")}`
 
 ```{r}
 # dm <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\dm.sas7bdat)"))
@@ -862,6 +870,7 @@ str_detect(dm$RACE,regex("Other",ignore_case = T)) & str_detect(dm$RACEOTH,"^$|p
 # Education
 !str_detect(dm$EDU,"Grade 0-8|High School \\(Grades 9-12\\)|Some College \\(1-4 years\\)|Bachelor's Degree \\(BA BS etc\\)|Master's Degree \\(MA MS etc\\)|Doctorate or Professional school degree \\(PhD EdD MD JD etc\\)"),] %>%
   select(Subject,`__STUDYEVENTREPEATKEY`,VISITDTC:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "dm",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -894,7 +903,7 @@ str_detect(dm$RACE,regex("Other",ignore_case = T)) & str_detect(dm$RACEOTH,"^$|p
 
 `r if(is.character(params$data11)){knitr::asis_output("# **DU2 Review**")}`
 
-`r if(is.character(params$data11)){htmltools::a("Final Data Upload Log",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Final_DataUpload_Log.pdf")}`
+`r if(is.character(params$data11)){htmltools::a("Final Data Upload Log",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Final_DataUpload_Log.pdf")}`
 
 ```{r}
 # du2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\du2.sas7bdat)"))
@@ -930,6 +939,7 @@ str_length(du2$UPDTC01) != median(str_length(du2$UPDTC01),na.rm = T) | is.na(du2
 # Length of Time of Upload
 str_length(du2$UPDTC02) != median(str_length(du2$UPDTC02),na.rm = T),] %>%
   select(Subject,`__STUDYEVENTREPEATKEY`,UPORES01:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "du2",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -958,16 +968,16 @@ str_length(du2$UPDTC02) != median(str_length(du2$UPDTC02),na.rm = T),] %>%
 
 `r if(is.character(params$data12)){knitr::asis_output("# **IE Review**")}`
 
-`r if(is.character(params$data12)){htmltools::a("Eligibility",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Eligibility.pdf")}`
+`r if(is.character(params$data12)){htmltools::a("Eligibility",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Eligibility.pdf")}`
 
 ```{r}
 # ie <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\ie.sas7bdat)"))
 # ie <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-VAL-21216\Openclinica\Current\ie.sas7bdat)"))
-ie <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-22225\SE23_24_Glu\OpenClinica\Current\ie.sas7bdat)"))
+# ie <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-22225\SE23_24_Glu\OpenClinica\Current\ie.sas7bdat)"))
 ```
 
 ```{r Load ie, eval=is.character(params$data12)}
-# ie <- read_sas(params$data12)
+ie <- read_sas(params$data12)
 ie <- ie %>% 
       mutate(Subject = as.character(Subject)) %>% 
       arrange(Subject)
@@ -1000,6 +1010,7 @@ str_detect(ie$IEORES01,regex("Yes",ignore_case = T)) & !str_detect(ie$IEORES02,"
 # If no, Please provide the Inclusion/Exclusion Number(s) not satisfied
 str_detect(ie$IEORES01,regex("No",ignore_case = T)) & str_detect(ie$IEORES02,"^$|pattern"),] %>%
   select(Subject,`__STUDYEVENTREPEATKEY`,IEDTC01:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "ie",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -1026,7 +1037,7 @@ str_detect(ie$IEORES01,regex("No",ignore_case = T)) & str_detect(ie$IEORES02,"^$
 
 `r if(is.character(params$data13)){knitr::asis_output("# **IV1 Review**")}`
 
-`r if(is.character(params$data13)){htmltools::a("IV Sample Collection",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/IV_Sample_Collection.pdf")}`
+`r if(is.character(params$data13)){htmltools::a("IV Sample Collection",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/IV_Sample_Collection.pdf")}`
 
 ```{r}
 # iv1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\iv1.sas7bdat)"))
@@ -1054,6 +1065,7 @@ iv1[
 # Length of IV Draw Date
 str_length(iv1$IVDTC01) != median(str_length(iv1$IVDTC01),na.rm = T),] %>% 
   select(-c(`StudyStatus`,`SubjectID`:`__ITEMGROUPREPEATKEY`)) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "iv1",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -1074,7 +1086,7 @@ str_length(iv1$IVDTC01) != median(str_length(iv1$IVDTC01),na.rm = T),] %>%
 
 `r if(is.character(params$data14)){knitr::asis_output("# **IV2 Review**")}`
 
-`r if(is.character(params$data14)){htmltools::a("IV Sample Collection",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/IV_Sample_Collection.pdf")}`
+`r if(is.character(params$data14)){htmltools::a("IV Sample Collection",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/IV_Sample_Collection.pdf")}`
 
 ```{r}
 # iv2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\iv2.sas7bdat)"))
@@ -1113,6 +1125,7 @@ str_detect(iv2$IVTM02,";|\"\\.")       |
 # IV Sample Viability (C)
 str_detect(iv2$IVVAL01,"^$|pattern"),] %>% 
   select(-c(`StudyStatus`,`SubjectID`:`__ITEMGROUPREPEATKEY`)) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "iv2",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -1145,7 +1158,7 @@ str_detect(iv2$IVVAL01,"^$|pattern"),] %>%
 
 `r if(is.character(params$data15)){knitr::asis_output("# **MH1 Review**")}`
 
-`r if(is.character(params$data15)){htmltools::a("Diabetes History",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Diabetes History.pdf")}`
+`r if(is.character(params$data15)){htmltools::a("Diabetes History",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Diabetes_History.pdf")}`
 
 ```{r}
 # mh1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\mh1.sas7bdat)"))
@@ -1198,6 +1211,7 @@ str_detect(mh1$MHORES02,regex("Yes",ignore_case = T)) & (is.na(mh1$MHORES08)) |
 # if MHORES02 yes Total daily insulin dose (approximate)
 str_detect(mh1$MHORES02,regex("Yes",ignore_case = T)) & (is.na(mh1$MHORES09)),] %>%
   select(Subject,`__STUDYEVENTREPEATKEY`,MHYN01:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "mh1",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -1242,7 +1256,7 @@ str_detect(mh1$MHORES02,regex("Yes",ignore_case = T)) & (is.na(mh1$MHORES09)),] 
 
 `r if(is.character(params$data16)){knitr::asis_output("# **PD Review**")}`
 
-`r if(is.character(params$data16)){htmltools::a("Protocol Deviation Report",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Protocol_Deviation_Report.pdf")}`
+`r if(is.character(params$data16)){htmltools::a("Protocol Deviation Report",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Protocol_Deviation.pdf")}`
 
 ```{r}
 # pd <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\pd.sas7bdat)"))
@@ -1301,6 +1315,7 @@ str_detect(pd$DVACT4,regex("Yes",ignore_case = T)) & str_detect(pd$DVCOM2,"^$|pa
 # Length of Principal Investigator Acknowledgement: Date
 str_length(pd$DVDTC3) != median(str_length(pd$DVDTC3), na.rm = T),] %>%
   select(Subject,`__STUDYEVENTREPEATKEY`,DVDTC1:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "pd",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -1349,7 +1364,7 @@ str_length(pd$DVDTC3) != median(str_length(pd$DVDTC3), na.rm = T),] %>%
 
 `r if(is.character(params$data17)){knitr::asis_output("# **QCRG1 Review**")}`
 
-`r if(is.character(params$data17)){htmltools::a("Quality Control Check – YSI",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/QC_CheckYSI.pdf")}`
+`r if(is.character(params$data17)){htmltools::a("Quality Control Check – YSI",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/QC_CheckYSI.pdf")}`
 
 ```{r}
 # qcrg1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\qcrg1.sas7bdat)"))
@@ -1375,6 +1390,7 @@ qcrg1[
 # YSI Number (C)
 (is.na(qcrg1$DQID01) | str_detect(qcrg1$DQID01,"^$|pattern")),] %>% 
   select(-c(`StudyStatus`,`SubjectID`:`__ITEMGROUPREPEATKEY`)) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "qcrg1",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -1393,7 +1409,7 @@ qcrg1[
 
 `r if(is.character(params$data18)){knitr::asis_output("# **QCRG2 Review**")}`
 
-`r if(is.character(params$data18)){htmltools::a("Quality Control Check – YSI",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/QC_CheckYSI.pdf")}`
+`r if(is.character(params$data18)){htmltools::a("Quality Control Check – YSI",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/QC_CheckYSI.pdf")}`
 
 ```{r}
 # qcrg2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\qcrg2.sas7bdat)"))
@@ -1452,6 +1468,7 @@ is.na(qcrg2$DQTM04) | str_detect(qcrg2$DQTM04,"^$|pattern")         |
 # Length of 400 Standard Time
 str_length(qcrg2$DQTM04) != median(str_length(qcrg2$DQTM04),na.rm = T),] %>%
   select(-c(`StudyStatus`,`SubjectID`:`__ITEMGROUPREPEATKEY`)) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "qcrg2",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -1552,7 +1569,7 @@ str_length(qcrg2$DQTM04) != median(str_length(qcrg2$DQTM04),na.rm = T),] %>%
 
 `r if(is.character(params$data20)){knitr::asis_output("# **SA Review**")}`
 
-`r if(is.character(params$data20)){htmltools::a("Sensor Application",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/SensorApplication_Site.pdf")}`
+`r if(is.character(params$data20)){htmltools::a("Sensor Application",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Sensor_Application.pdf")}`
 
 ```{r}
 # sa <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\sa.sas7bdat)"))
@@ -1623,6 +1640,7 @@ is.na(sa$DUORES03) | str_detect(sa$DUORES03,"^$|pattern")   |
 # Was the sensor functional? (C)
 !str_detect(sa$DUORES06,regex("Yes|No",ignore_case = T)),] %>%
   select(Subject,`__STUDYEVENTREPEATKEY`,DUDTC01:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "sa",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -1677,7 +1695,7 @@ is.na(sa$DUORES03) | str_detect(sa$DUORES03,"^$|pattern")   |
 
 `r if(is.character(params$data21)){knitr::asis_output("# **SE Review**")}`
 
-`r if(is.character(params$data21)){htmltools::a("Study Exit",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Study_Exit.pdf")}`
+`r if(is.character(params$data21)){htmltools::a("Study Exit",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Study_Exit.pdf")}`
 
 ```{r}
 # se <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\se.sas7bdat)"))
@@ -1709,6 +1727,7 @@ str_length(se$DSDTC01) != median(str_length(se$DSDTC01),na.rm = T)        |
 # If no, Did the subject complete the study per protocol? Select one reason below for withdrawal
 str_detect(se$DSCPYN,regex("No",ignore_case = T)) & (is.na(se$DSDTC02) | str_detect(se$DSDTC02,"^$|pattern") |  str_detect(se$DSDECD01,"^$|pattern")),] %>% 
   select(Subject,`__STUDYEVENTREPEATKEY`,DSDTC01:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "se",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -1733,7 +1752,7 @@ str_detect(se$DSCPYN,regex("No",ignore_case = T)) & (is.na(se$DSDTC02) | str_det
 
 `r if(is.character(params$data22)){knitr::asis_output("# **SK1 Review**")}`
 
-`r if(is.character(params$data22)){htmltools::a("Skin Assessment",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Skin_Assessment.pdf")}`
+`r if(is.character(params$data22)){htmltools::a("Skin Assessment",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Skin_Assessment.pdf")}`
 
 ```{r}
 # sk1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\sk1.sas7bdat)"))
@@ -1762,6 +1781,7 @@ sk1[
 # Length of Visit Date
 str_length(sk1$PEDTC01) != median(str_length(sk1$PEDTC01),na.rm = T),] %>%
   select(Subject,`__STUDYEVENTREPEATKEY`,PEDTC01) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "sk1",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -1783,7 +1803,7 @@ str_length(sk1$PEDTC01) != median(str_length(sk1$PEDTC01),na.rm = T),] %>%
 
 `r if(is.character(params$data23)){knitr::asis_output("# **SK2 Review**")}`
 
-`r if(is.character(params$data23)){htmltools::a("Skin Assessment",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Skin_Assessment.pdf")}`
+`r if(is.character(params$data23)){htmltools::a("Skin Assessment",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Skin_Assessment.pdf")}`
 
 ```{r}
 # sk2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\sk2.sas7bdat)"))
@@ -1831,6 +1851,7 @@ str_detect(sk2$PEORES08,regex("Yes",ignore_case = T)) & is.na(sk2$PEORES09)     
 # If yes, Hypo/Hyperpigmentation Area (cm2) (N)
 str_detect(sk2$PEORES10,regex("Yes",ignore_case = T)) & is.na(sk2$PEORES11),] %>%
   select(Subject,`__STUDYEVENTREPEATKEY`,PELOC01:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "sk2",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -1871,7 +1892,7 @@ str_detect(sk2$PEORES10,regex("Yes",ignore_case = T)) & is.na(sk2$PEORES11),] %>
 
 `r if(is.character(params$data24)){knitr::asis_output("# **SL1 Review**")}`
 
-`r if(is.character(params$data24)){htmltools::a("Study Set-up",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Study_Setup.pdf")}`
+`r if(is.character(params$data24)){htmltools::a("Study Set-up",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Study_Setup.pdf")}`
 
 ```{r}
 # sl1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\sl1.sas7bdat)"))
@@ -1901,6 +1922,7 @@ is.na(sl1$SLDTC01) | str_detect(sl1$SLDTC01,"^$|pattern")      |
 # Length of Study Set-up date
 str_length(sl1$SLDTC01) != median(str_length(sl1$SLDTC01),na.rm = T),] %>%
   select(Subject,`__STUDYEVENTREPEATKEY`,SLDTC01:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "sl1",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -1921,7 +1943,7 @@ str_length(sl1$SLDTC01) != median(str_length(sl1$SLDTC01),na.rm = T),] %>%
 
 `r if(is.character(params$data25)){knitr::asis_output("# **SL2 Review**")}`
 
-`r if(is.character(params$data25)){htmltools::a("Study Set-up",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Study_Setup.pdf")}`
+`r if(is.character(params$data25)){htmltools::a("Study Set-up",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Study_Setup.pdf")}`
 
 ```{r}
 # sl2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\sl2.sas7bdat)"))
@@ -1947,6 +1969,7 @@ sl2[
 # Test Strip Lot Number (C)
 is.na(sl2$SLID01) | str_detect(sl2$SLID01,"^$|pattern"),] %>%
   select(Subject,`__STUDYEVENTREPEATKEY`,SLID01:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "sl2",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -1965,7 +1988,7 @@ is.na(sl2$SLID01) | str_detect(sl2$SLID01,"^$|pattern"),] %>%
 
 `r if(is.character(params$data26)){knitr::asis_output("# **SL3 Review**")}`
 
-`r if(is.character(params$data26)){htmltools::a("Study Set-up",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Study_Setup.pdf")}`
+`r if(is.character(params$data26)){htmltools::a("Study Set-up",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Study_Setup.pdf")}`
 
 ```{r}
 # sl3 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\sl3.sas7bdat)"))
@@ -1993,6 +2016,7 @@ sl3[
 # YSI Serial Number (C)
 is.na(sl3$SLID03) | str_detect(sl3$SLID03,"^$|pattern"),] %>%
   select(Subject,`__STUDYEVENTREPEATKEY`,SLID02:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "sl3",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -2013,7 +2037,7 @@ is.na(sl3$SLID03) | str_detect(sl3$SLID03,"^$|pattern"),] %>%
 
 `r if(is.character(params$data27)){knitr::asis_output("# **SR2 Review**")}`
 
-`r if(is.character(params$data27)){htmltools::a("Sensor Removal",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Sensor_Removal.pdf")}`
+`r if(is.character(params$data27)){htmltools::a("Sensor Removal",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Sensor_Removal.pdf")}`
 
 ```{r}
 # sr2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\sr2.sas7bdat)"))
@@ -2053,6 +2077,7 @@ str_length(sr2$DRTM01) != median(str_length(sr2$DRTM01),na.rm = T) |
 # Is the application site still suitable for sensor application? (C)
 !str_detect(sr2$DRORES03,regex("Yes|No|NA",ignore_case = T)),] %>%
   select(-c(`StudyStatus`,`SubjectID`:`__ITEMGROUPREPEATKEY`)) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "sr2",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -2111,6 +2136,7 @@ str_length(vc1$VCDTC01) != median(str_length(vc1$VCDTC01),na.rm = T) |
 # Select Interferent Type
 !str_detect(vc1$VCORES06,regex("Ascorbic acid|Acetaminophen",ignore_case = T)),] %>%
   select(-c(`StudyStatus`,`SubjectID`:`__ITEMGROUPREPEATKEY`)) %>% 
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "vc1",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -2173,6 +2199,7 @@ vc2[
 (str_detect(vc2$VCYN03,regex("No",ignore_case = T)) 
  & str_detect(vc2$VCORES05,"^$|pattern")),] %>% 
    select(-c(`StudyStatus`,`SubjectID`:`__ITEMGROUPREPEATKEY`)) %>% 
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "vc2",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
@@ -2205,7 +2232,7 @@ vc2[
 
 `r if(is.character(params$data28)){knitr::asis_output("# **VS Review**")}`
 
-`r if(is.character(params$data28)){htmltools::a("Height and Weight",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-21217 Vitamin C Events/Case Report Forms/Version A/Approved/PDF_file/Height_Weight.pdf")}`
+`r if(is.character(params$data28)){htmltools::a("Height and Weight",href = "//oneabbott.com/dept/ADC/Technical_OPS/Clinical_Affairs/Clinical Study Files/Apollo/ADC-US-RES-22225 Multi-Analyte Studies/Case Report Forms/Version_G/PDF/Height_Weight.pdf")}`
 
 ```{r}
 # vs <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\vs.sas7bdat)"))
@@ -2247,6 +2274,7 @@ str_length(vs$VSDTC01) != median(str_length(vs$VSDTC01),na.rm = T) |
 # Weight lb extreme value
 ((vs$VSORES03 < quantile(vs$VSORES03,probs = 0.25,names = F) -1.5*IQR(vs$VSORES03) | vs$VSORES03 > quantile(vs$VSORES03,probs = 0.75,names = F) + 1.5*IQR(vs$VSORES03)) & !str_length(vs$VSORES03) %in% c(3,5)),] %>%
   select(Subject,`__STUDYEVENTREPEATKEY`,VSDTC01:last_col()) %>%
+  {if (params$label) (sjlabelled::label_to_colnames(.)) else .} %>%
   reactable(paginationType = "jump", striped = TRUE, highlight = TRUE, searchable = TRUE, defaultPageSize = 6, resizable = TRUE, filterable = TRUE,elementId = "vs",
      defaultColDef = colDef(align = "center",minWidth = 115),
      columns = list(Subject = colDef(sticky = "left"))
