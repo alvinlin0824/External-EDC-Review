@@ -960,7 +960,7 @@ str_length(du2$UPDTC02) != median(str_length(du2$UPDTC02),na.rm = T),] %>%
 
 `r if(is.character(params$data11)){knitr::asis_output("UPDTC01(Time of Upload) should not be blank")}` `r if(is.character(params$data11)){colorize(du2[(is.na(du2$UPDTC02) | str_detect(du2$UPDTC02,"^$|pattern")),]$Subject,"red")}`
 
-`r if(is.character(params$data11)){knitr::asis_output("Length of UPDTC01(Time of Upload) should be")}` `r if(is.character(params$data11)){colorize(median(str_length(du2$UPDTC02),na.rm = T),"red")}``r if(is.character(params$data11)){colorize(du2[str_length(du2$UPDTC02) != median(str_length(du2$UPDTC02),na.rm = T),]$Subject,"red")}`
+`r if(is.character(params$data11)){knitr::asis_output("Length of UPDTC01(Time of Upload) should be")}` `r if(is.character(params$data11)){colorize(median(str_length(du2$UPDTC02),na.rm = T),"red")}` `r if(is.character(params$data11)){colorize(du2[str_length(du2$UPDTC02) != median(str_length(du2$UPDTC02),na.rm = T),]$Subject,"red")}`
 
 <!-- # IE Review -->
 
