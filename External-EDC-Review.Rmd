@@ -149,7 +149,6 @@ knitr::opts_chunk$set(echo = FALSE,
 
 ```{r Libaray Packages, message=FALSE, include=F}
 library(tidyverse)
-library(lubridate)
 library(haven)
 library(htmltools)
 library(reactable)
@@ -217,7 +216,7 @@ str_detect(str_to_lower(ae1$AEDESC01),"erythema|induration|edema|bruising|rash|i
 str_detect(str_to_lower(ae1$AEDESC01),"erythema|induration|edema|bruising|rash|infection|other") &
 (!str_detect(ae1$AENUM02,"^$|pattern") & !str_detect(ae1$AEORES02,"^$|pattern"))  |
 # Affected area and NA for Affected area for pain|itching|bleeding
-str_detect(str_to_lower(ae1$AEDESC01),"pain|itching|bleeding") & (is.na(ae1$AENUM02) | !str_detect(ae1$AEORES02,"NA"))  |
+str_detect(str_to_lower(ae1$AEDESC01),"pain|itching|bleeding") & (!is.na(ae1$AENUM02) | !str_detect(ae1$AEORES02,"NA"))  |
 # Intensity of erythema and edema
 str_detect(str_to_lower(ae1$AEDESC01),"erythema|edema") &
 (str_detect(ae1$AENUM03,"^$|pattern") & str_detect(ae1$AEORES03,"^$|pattern"))  |
@@ -234,7 +233,7 @@ str_detect(ae1$AESTTM02,"^$|pattern") & str_detect(ae1$AESTTM01,"^$|pattern") |
 str_detect(ae1$AEREL01,"Not Related") & !str_detect(ae1$AEEVNT01,"^$|pattern") |
 # NO SAE or SADE: Is this adverse event related to a Study Device?
 # Possibly Related or Related, AEEVNT01 should be blank
-str_detect(ae1$AEREL01,"Related|Possibly Related") & (!str_detect(ae1$AEEVNT01,"Anticipated|Unanticipated") | is.na(ae1$AENUM04) | str_detect(ae1$AECOM04,"^$|pattern")) |
+str_detect(ae1$AEREL01,"Related|Possibly Related") & (!str_detect(ae1$AEEVNT01,"Anticipated|Unanticipated") | is.na(ae1$AENUM04)) |
 # Is this adverse event related to a Study Procedure?
 # Not Related
 str_detect(str_to_lower(ae1$AEREL02),"not related") & !str_detect(ae1$AEEVNT02,"^$|pattern") |
@@ -285,7 +284,7 @@ is.na(ae1$AEDTC03),] %>%
 
 `r if(is.character(params$data1)){knitr::asis_output("If AEDESC01(Symptom) is erythema,induration,edema,bruising,rash,infection,or other, so  AENUM02(Affected area) and AEORES02(NA for Affected area) should not be blank at the same time")}` `r if(is.character(params$data1)){colorize(ae1[str_detect(str_to_lower(ae1$AEDESC01),"erythema|induration|edema|bruising|rash|infection|other") & (str_detect(ae1$AENUM02,"^$|pattern") & str_detect(ae1$AEORES02,"^$|pattern")),]$Subject,"red")}` `r if(is.character(params$data1)){knitr::asis_output("and should not have contents at the same time")}` `r if(is.character(params$data1)){colorize(ae1[str_detect(str_to_lower(ae1$AEDESC01),"erythema|induration|edema|bruising|rash|infection|other") & (!str_detect(ae1$AENUM02,"^$|pattern") & !str_detect(ae1$AEORES02,"^$|pattern")),]$Subject,"red")}`
 
-`r if(is.character(params$data1)){knitr::asis_output("If AEDESC01(Symptom) is pain, itching, and bleeding, so AENUM02(Affected area) should be blank and AEORES02(NA for Affected area) should be NA")}` `r if(is.character(params$data1)){colorize(ae1[str_detect(str_to_lower(ae1$AEDESC01),"pain|itching|bleeding") & (is.na(ae1$AENUM02) | !str_detect(ae1$AEORES02,"NA")),]$Subject,"red")}` 
+`r if(is.character(params$data1)){knitr::asis_output("If AEDESC01(Symptom) is pain, itching, and bleeding, so AENUM02(Affected area) should be blank and AEORES02(NA for Affected area) should be NA")}` `r if(is.character(params$data1)){colorize(ae1[str_detect(str_to_lower(ae1$AEDESC01),"pain|itching|bleeding") & (!is.na(ae1$AENUM02) | !str_detect(ae1$AEORES02,"NA")),]$Subject,"red")}` 
 
 `r if(is.character(params$data1)){knitr::asis_output("If AEDESC01(Symptom) is erythema,or edema, so AENUM03(Intensity of Erythema) and AEORES03(NA for Intensity) should not be blank at the same time")}` `r if(is.character(params$data1)){colorize(ae1[str_detect(str_to_lower(ae1$AEDESC01),"erythema|edema") & (str_detect(ae1$AENUM03,"^$|pattern") & str_detect(ae1$AEORES03,"^$|pattern")),]$Subject,"red")}` `r if(is.character(params$data1)){knitr::asis_output("and should not have contents at the same time")}` `r if(is.character(params$data1)){colorize(ae1[str_detect(str_to_lower(ae1$AEDESC01),"erythema|edema") & (!str_detect(ae1$AENUM03,"^$|pattern") & !str_detect(ae1$AEORES03,"^$|pattern")),]$Subject,"red")}`
 
@@ -299,7 +298,7 @@ is.na(ae1$AEDTC03),] %>%
 `r if(is.character(params$data1)){knitr::asis_output("AEREL01 (Is this adverse event related to a Study Device?) is Not Related, so AEEVNT01(Was the adverse event an unanticipated or anticipated event?) should be blank")}` `r if(is.character(params$data1)){colorize(ae1[str_detect(ae1$AEREL01,"Not Related") & !str_detect(ae1$AEEVNT01,"^$|pattern"),]$Subject,"red")}`
 
 `r if(is.character(params$data1)){knitr::asis_output("AEREL01 (Is this adverse event related to a Study Device?) is Possibly Related or Related, so AEEVNT01(Was the adverse event an unanticipated or anticipated event?) and AENUM04(Sensor Number) should not be blank at the same time")}`
-`r if(is.character(params$data1)){colorize(ae1[str_detect(ae1$AEREL01,"Related|Possibly Related") & (!str_detect(ae1$AEEVNT01,"Anticipated|Unanticipated") | is.na(ae1$AENUM04) | str_detect(ae1$AECOM04,"^$|pattern")),]$Subject,"red")}`
+`r if(is.character(params$data1)){colorize(ae1[str_detect(ae1$AEREL01,"Related|Possibly Related") & (!str_detect(ae1$AEEVNT01,"Anticipated|Unanticipated") | is.na(ae1$AENUM04)),]$Subject,"red")}`
 
 `r if(is.character(params$data1)){knitr::asis_output("AEREL02(Is this adverse event related to a Study Procedure?) is Not Related, so AEEVNT02(Was the adverse event an unanticipated or anticipated event?) should be blank")}` `r if(is.character(params$data1)){colorize(ae1[str_detect(str_to_lower(ae1$AEREL02),"not related") & !str_detect(ae1$AEEVNT02,"^$|pattern"),]$Subject,"red")}`
 
@@ -1837,7 +1836,7 @@ sk2[
 # Hair Coverage score (C)
 !str_detect(sk2$PEORES04,"1=Significant\\(shaving required\\)|2=Non-significant") |
 # Dry Skin score (C)
-!str_detect(sk2$PEORES05,regex("1=Significant\\(Flaky\\)|2=Non-significant",ignore_case = T))  |
+!str_detect(sk2$PEORES05,regex("1=Significant\\(Flaky\\)|1=Significant \\(Flaky\\)|2=Non-significant",ignore_case = T))  |
 # Scabbing score (C)
 !str_detect(sk2$PEORES06,regex("Yes|No",ignore_case = T))   |
 # If Yes, Scabbing Area (cm2) (N)
@@ -1872,7 +1871,7 @@ str_detect(sk2$PEORES10,regex("Yes",ignore_case = T)) & is.na(sk2$PEORES11),] %>
 
 `r if(is.character(params$data23)){knitr::asis_output("PEORES04(Hair Coverage score) should be 1=Significant(shaving required), 2=Non-significant")}` `r if(is.character(params$data23)){colorize(sk2[!str_detect(sk2$PEORES04,"1=Significant\\(shaving required\\)|2=Non-significant"),]$Subject,"red")}`
 
-`r if(is.character(params$data23)){knitr::asis_output("PEORES05(Dry Skin score) should be 1=Significant(Flaky),2=Non-significant")}` `r if(is.character(params$data23)){colorize(sk2[!str_detect(sk2$PEORES05,regex("1=Significant\\(Flaky\\)|2=Non-significant",ignore_case = T)),]$Subject,"red")}`
+`r if(is.character(params$data23)){knitr::asis_output("PEORES05(Dry Skin score) should be 1=Significant(Flaky),2=Non-significant")}` `r if(is.character(params$data23)){colorize(sk2[!str_detect(sk2$PEORES05,regex("1=Significant\\(Flaky\\)|1=Significant \\(Flaky\\)|2=Non-significant",ignore_case = T)),]$Subject,"red")}`
 
 `r if(is.character(params$data23)){knitr::asis_output("PEORES06(Scabbing score) should be Yes or No")}` `r if(is.character(params$data23)){colorize(sk2[!str_detect(sk2$PEORES06,regex("Yes|No",ignore_case = T)),]$Subject,"red")}`
 
