@@ -178,6 +178,7 @@ colorize <- function(x, color) {
 # ae1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-19183\SE10\OpenClinica\Current\ae1.sas7bdat)"))
 # ae1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-VAL-21206\OpenClinica\Final\ae1.sas7bdat)"))
 # ae1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-22225\SE23_24_Glu\OpenClinica\Current\ae1.sas7bdat)"))
+# ae1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-23234\OpenClinica\Current\ae1.sas7bdat)"))
 ```
 
 ```{r Load ae1, eval=is.character(params$data1)}
@@ -387,6 +388,7 @@ ae2[
 # cad2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE02\Openclinica\Current\cad2.sas7bdat)"))
 # cad2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-VAL-21216\Openclinica\Current\cad2.sas7bdat)"))
 # cad2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-22225\SE23_24_Glu\OpenClinica\Current\cad2.sas7bdat)"))
+# cad2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-23234\OpenClinica\Current\cad2.sas7bdat)"))
 ```
 
 ```{r Load cad2, eval=is.character(params$data3)}
@@ -748,9 +750,9 @@ str_detect(de$DETM01,"^$|pattern") & str_detect(de$DESPID13,"^$|pattern") |
 # Length of Time incident
 !str_detect(de$DETM01,"^$|pattern") & str_length(de$DETM01) != median(str_length(de$DETM01),na.rm = T)              |
 # Reader
-str_detect(de$DESPID07,regex("Reader",ignore_case = T)) & str_detect(de$DESPID01,"^$|pattern") |
+str_detect(de$DESPID07,regex("Reading Device",ignore_case = T)) & str_detect(de$DESPID01,"^$|pattern") |
 # Length of Reader Serial Number
-str_detect(de$DESPID07,regex("Reader",ignore_case = T)) & str_length(de$DESPID01) != 13        |
+str_detect(de$DESPID07,regex("Reading Device",ignore_case = T)) & str_length(de$DESPID01) != 13        |
 # Sensor
 str_detect(de$DESPID08,regex("Sensor",ignore_case = T)) & is.na(de$DESPID02)                  |
 # Was there a message on the meter/reader at the time of the incident?
@@ -793,9 +795,9 @@ str_detect(str_to_lower(de$DEORES09),"other") & str_detect(de$DETXT04,"^$|patter
 
 `r if(is.character(params$data9)){knitr::asis_output("Length of DETM01(Time Incident First Noticed) should be")}` `r if(is.character(params$data9)){colorize(median(str_length(de$DETM01),na.rm = T),"red")}` `r if(is.character(params$data9)){colorize(de[!str_detect(de$DETM01,"^$|pattern") & str_length(de$DETM01) != median(str_length(de$DETM01),na.rm = T),]$Subject,"red")}`
 
-`r if(is.character(params$data9)){knitr::asis_output("DESPID07(Reader) DESPID01(Reader serial number) should not be blank at the same time")}` `r if(is.character(params$data9)){colorize(de[str_detect(de$DESPID07,regex("Reader",ignore_case = T)) & str_detect(de$DESPID01,"^$|pattern"),]$Subject,"red")}`
+`r if(is.character(params$data9)){knitr::asis_output("DESPID07(Reading Device) DESPID01(Reader serial number) should not be blank at the same time")}` `r if(is.character(params$data9)){colorize(de[str_detect(de$DESPID07,regex("Reading Device",ignore_case = T)) & str_detect(de$DESPID01,"^$|pattern"),]$Subject,"red")}`
 
-`r if(is.character(params$data9)){knitr::asis_output("Length of DESPID01(Reader serial number) should be 13")}` `r if(is.character(params$data9)){colorize(de[str_detect(de$DESPID07,regex("Reader",ignore_case = T)) & str_length(de$DESPID01) != 13,]$Subject,"red")}`
+`r if(is.character(params$data9)){knitr::asis_output("Length of DESPID01(Reader serial number) should be 13")}` `r if(is.character(params$data9)){colorize(de[str_detect(de$DESPID07,regex("Reading Device",ignore_case = T)) & str_length(de$DESPID01) != 13,]$Subject,"red")}`
 
 `r if(is.character(params$data9)){knitr::asis_output("DESPID08(Sensor) DESPID02(Sensor number) should not be blank at the same time")}` `r if(is.character(params$data9)){colorize(de[str_detect(de$DESPID08,regex("Sensor",ignore_case = T)) & is.na(de$DESPID02),]$Subject,"red")}`
 
@@ -1168,7 +1170,7 @@ str_detect(iv2$IVVAL01,"^$|pattern"),] %>%
 ```{r Load mh1, eval=is.character(params$data15)}
 mh1 <- read_sas(params$data15)
 mh1 <- mh1 %>%
-       filter(!str_detect(MHYN02,regex("CHECK HERE IF NO DATA RECORDED|no_data_recorded",ignore_case = T))) %>%
+       # filter(!str_detect(MHYN02,regex("CHECK HERE IF NO DATA RECORDED|no_data_recorded",ignore_case = T))) %>%
        mutate(Subject = as.character(Subject)) %>% 
        arrange(Subject)
 ```
