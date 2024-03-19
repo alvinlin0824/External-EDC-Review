@@ -1,22 +1,40 @@
 ## Update Add Tabsets on 03-Aug-2022
 library(shiny)
 library(tidyverse)
+library(fs)
 library(shinyFeedback)
 library(rclipboard)
 options(shiny.maxRequestSize = 30*1024^2)
 
+# External
+m_drive <- gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\)")
+
+study_list <- dir_ls(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM)"),type = "directory") |>
+              file_info() |>
+              # Filter Year >= 2022
+              filter(year(modification_time) >= 2022) |>
+              # Filter Study
+              filter(str_detect(path,"RES|PMS|VAL|EXP")) |>
+              # Length
+              mutate(Path = str_extract(path, regex("(?<=CDM/).+"))) |> 
+              filter(str_length(Path) == 16) |> 
+              pull(Path)
+
 ui <- fluidPage(
-  theme = bslib::bs_theme(bootswatch = "minty"),
-  titlePanel("ADC US External EDC Review"),
-  useShinyFeedback(),
-  a(span("Please email Alvin Lin if you run into any issues",style = "color:black"),href = "mailto:alvin.lin@abbott.com"),
-  fluidRow(column(12,
-                  textInput("study",h6("Please enter study"),value = "",width = "400px"),
+        theme = bslib::bs_theme(bootswatch = "minty"),
+        titlePanel("ADC US External EDC Review"),
+        useShinyFeedback(),
+        a(span("Please email Alvin Lin if you run into any issues",style = "color:black"),href = "mailto:alvin.lin@abbott.com"),
+        fluidRow(column(12,
+                  selectInput("study",h6("Please enter study"), study_list,width = "400px"),
                   uiOutput("new"),
                   verbatimTextOutput("text"),
                   selectInput("label","Column Label",choices = c(TRUE,FALSE),selected = FALSE),
                   rclipboardSetup(),
                   uiOutput("clip"))),
+                  br(),
+                  actionButton("reset","Refresh"),
+                  br(),
                   br(),
   tabsetPanel(
     tabPanel(p("Adverse Event Report",style = "font-size:20px;"),
@@ -79,29 +97,37 @@ server <- function(input, output, session) {
   })
   
   output$new <- renderUI({
-    if (input$study %in% c("21206","21216","23234")) return(NULL) else {
-      textInput("event", h6("Please enter study event"),width = "400px")
+      if (input$study %in% c("ADC-US-RES-22225")) {
+      event <- dir_ls(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-22225\)"), type = "directory", regexp = "SE") |>
+        str_extract("(?<=[:digit:]{5}/).+")
+      selectInput("event", "Please select study event", event, width = "400px")
+    } else if (input$study %in% c("ADC-US-RES-21211")) {
+      event <- dir_ls(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21211\)"), type = "directory", regexp = "SE") |>
+        str_extract("(?<=[:digit:]{5}/).+")
+      selectInput("event", "Please select study event", event, width = "400px")
+    } else if (input$study %in% c("ADC-US-RES-23241")) {
+      event <- dir_ls(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-23241\)"), type = "directory", regexp = "SE") |>
+        str_extract("(?<=[:digit:]{5}/).+")
+      selectInput("event", "Please select study event", event, width = "400px")
+    }
+    else {
+      return(NULL)
     }
   })
   
+
+  
   text <- reactive({
     req(input$study)
-    
-    exists <- input$study %in% c("21217","21211","22225","21206","21216","23234")
-    feedbackWarning("study",!exists,"Unkown Study")
-    req(exists,cancelOutput = FALSE)
-    # RES with Study event
-    if (input$study %in% c("21217","21211","22225")) {
-      cat(str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\","ADC","-","US","-","RES","-",input$study,"\\",input$event,"\\","Openclinica","\\","Current"))
+    # study event
+    if (input$study %in% c("ADC-US-RES-22225","ADC-US-RES-21211","ADC-US-RES-23241")) {
+      cat(str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\",input$study,"\\",input$event,"\\","Openclinica","\\","Current"))
     } 
-    # RES without study event
-    else if (input$study %in% c("23234")) {
-      cat(str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\","ADC","-","US","-","RES","-",input$study,"\\","Openclinica","\\","Current"))
+    # Without study event
+    else if (!(input$study %in% c("ADC-US-RES-22225","ADC-US-RES-21211","ADC-US-RES-23241"))) {
+      cat(str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\",input$study,"\\","Openclinica","\\","Current"))
     } 
-    # VAL without study event
-    else {
-      cat(str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\","ADC","-","US","-","VAL","-",input$study,"\\","Openclinica","\\","Current"))
-    }
+  
   })
   
   output$text <- renderPrint({text()})
@@ -112,14 +138,13 @@ server <- function(input, output, session) {
     rclipButton(
       inputId = "clipbtn",
       label = "Copy Path",
-      clipText =  if (input$study %in% c("21217","21211","22225")) {
-        str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\","ADC","-","US","-","RES","-",input$study,"\\",input$event,"\\","Openclinica","\\","Current")
+      clipText =  
+        if (input$study %in% c("ADC-US-RES-22225","ADC-US-RES-21211","ADC-US-RES-23241")) {
+          str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\",input$study,"\\",input$event,"\\","Openclinica","\\","Current")
+          # str_c(m_drive,input$study,"\\",input$event,"\\","Openclinica","\\","Current")
       } 
-      else if (input$study %in% c("23234")) {
-        str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\","ADC","-","US","-","RES","-",input$study,"\\","Openclinica","\\","Current")
-      }
-      else  {
-        str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\","ADC","-","US","-","VAL","-",input$study,"\\","Openclinica","\\","Current")
+      else if (!(input$study %in% c("ADC-US-RES-22225","ADC-US-RES-21211","ADC-US-RES-23241"))) {
+        str_c("\\\\","wf00168p",".","oneabbott",".","com","\\","data1","\\","CDM","\\",input$study,"\\","Openclinica","\\","Current")
       }
       ,
       icon = icon("clipboard")
@@ -131,7 +156,6 @@ server <- function(input, output, session) {
   output$download <- downloadHandler(
     filename = function(){
       str_c(input$study," ",input$event," EDC Review Report ",Sys.Date(),".html")
-      # str_c("ADC-US-RES-21217 EDC Review Report.html")
     },
     content = function(file){
       params <- list(Study = input$study,

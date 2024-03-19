@@ -1,5 +1,5 @@
 ---
-title: "ADC-US-RES `r params$Study` EDC Review"
+title: "`r params$Study` EDC Review"
 author: "Alvin, Lin"
 date: "`r Sys.Date()`"
 output: 
@@ -179,6 +179,7 @@ colorize <- function(x, color) {
 # ae1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-VAL-21206\OpenClinica\Final\ae1.sas7bdat)"))
 # ae1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-22225\SE23_24_Glu\OpenClinica\Current\ae1.sas7bdat)"))
 # ae1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-23234\OpenClinica\Current\ae1.sas7bdat)"))
+# ae1 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-23241\SE01\OpenClinica\Current\ae1.sas7bdat)"))
 ```
 
 ```{r Load ae1, eval=is.character(params$data1)}
@@ -910,6 +911,7 @@ str_detect(dm$RACE,regex("Other",ignore_case = T)) & str_detect(dm$RACEOTH,"^$|p
 # du2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-21217\SE01\Openclinica\Current\du2.sas7bdat)"))
 # du2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-VAL-21216\Openclinica\Current\du2.sas7bdat)"))
 # du2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-22225\SE23_24_Glu\OpenClinica\Current\du2.sas7bdat)"))
+# du2 <- read_sas(gsub("\\\\", "/", r"(\\wf00168p.oneabbott.com\data1\CDM\ADC-US-RES-23241\SE01\OpenClinica\Current\du2.sas7bdat)"))
 ```
 
 ```{r Load du2, eval=is.character(params$data11)}
